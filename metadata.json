@@ -1,0 +1,10 @@
+{
+  "name": "Muslim Reminder",
+  "description": "Muslim Reminder আপনার দ্বীনের সঙ্গী। নির্ভুল নামাজের সময়, আজান, কিবলা কম্পাস, পূর্ণাঙ্গ কুরআন, রমজান ক্যালেন্ডার, দোয়া ও সহিহ সুন্নাহ।",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

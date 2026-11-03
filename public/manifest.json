@@ -1,0 +1,72 @@
+{
+  "id": "/",
+  "name": "Muslim Reminder — মুসলিম রিমাইন্ডার",
+  "short_name": "Muslim Reminder",
+  "description": "Muslim Reminder (মুসলিম রিমাইন্ডার) — আপনার দ্বীনের সঙ্গী। নির্ভুল নামাজের সময়, আজান, কিবলা কম্পাস, পূর্ণাঙ্গ কুরআন, রমজান ক্যালেন্ডার, দোয়া ও সহিহ সুন্নাহ।",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay"],
+  "orientation": "portrait-primary",
+  "background_color": "#064e3b",
+  "theme_color": "#064e3b",
+  "lang": "bn",
+  "dir": "ltr",
+  "categories": ["lifestyle", "utilities", "books", "education"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "নামাজের সময়সূচি",
+      "short_name": "নামাজ",
+      "description": "দৈনিক ৫ ওয়াক্ত নামাজের সঠিক সময়সূচি ও অ্যালার্ম",
+      "url": "/?tab=prayer",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "পবিত্র কুরআন",
+      "short_name": "কুরআন",
+      "description": "১১৪টি সূরা বাংলা অনুবাদ ও অডিও তেলাওয়াতসহ",
+      "url": "/?tab=quran",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "ডিজিটাল তাসবীহ",
+      "short_name": "তাসবীহ",
+      "description": "প্রতিদিনের জিকির ও গণনা",
+      "url": "/?tab=tasbih",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "কিবলা কম্পাস",
+      "short_name": "কিবলা",
+      "description": "সঠিক কিবলার দিক নির্ধারণ",
+      "url": "/?tab=qibla",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

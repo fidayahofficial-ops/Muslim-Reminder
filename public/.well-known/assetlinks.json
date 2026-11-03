@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.waqto.islamicapp",
+        "sha256_cert_fingerprints": ["63:60:CF:8A:0F:D8:42:5C:B5:A3:04:30:CF:2C:5A:EB:13:4F:52:8C:CF:0F:ED:D0:E6:FB:45:4E:61:3E:8B:47"]
+      }
+    }]

@@ -1,0 +1,359 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile, account status, and privacy-safe aggregate activity counters",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "email": { "type": "string", "maxLength": 200 },
+        "avatarIcon": { "type": "string", "maxLength": 100 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "joinedDate": { "type": "string", "maxLength": 100 },
+        "lastActiveAt": { "type": "number" },
+        "loginMethod": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "language": { "type": "string", "enum": ["bn", "en"] },
+        "theme": { "type": "string", "enum": ["light", "dark", "system"] },
+        "districtId": { "type": "string", "maxLength": 64 },
+        "appOpens": { "type": "number" },
+        "totalCoins": { "type": "number" },
+        "streakDays": { "type": "number" },
+        "prayerCount": { "type": "number" },
+        "quranPagesRead": { "type": "number" },
+        "quranReadMinutes": { "type": "number" },
+        "tasbihCount": { "type": "number" },
+        "quizCorrectCount": { "type": "number" },
+        "quizTotalAnswered": { "type": "number" },
+        "notesCount": { "type": "number" },
+        "bookmarksCount": { "type": "number" },
+        "isFlagged": { "type": "boolean" },
+        "flagReason": { "type": "string", "maxLength": 500 },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "name"]
+    },
+    "PersonalNote": {
+      "title": "PersonalNote",
+      "description": "User personal spiritual note (strictly private to user)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "content": { "type": "string", "maxLength": 10000 },
+        "category": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "title", "content", "createdAt", "updatedAt"]
+    },
+    "BookmarkItem": {
+      "title": "BookmarkItem",
+      "description": "User saved ayah, dua, or hadith bookmark",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["ayah", "dua", "hadith", "quiz"] },
+        "title": { "type": "string", "maxLength": 300 },
+        "subtitle": { "type": "string", "maxLength": 1000 },
+        "reference": { "type": "string", "maxLength": 300 },
+        "dataRefId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "type", "title", "reference", "dataRefId", "createdAt"]
+    },
+    "DailyAmalRecord": {
+      "title": "DailyAmalRecord",
+      "description": "Daily prayer and spiritual deeds tracking record",
+      "type": "object",
+      "properties": {
+        "dateKey": { "type": "string", "maxLength": 30 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "prayers": { "type": "object" },
+        "quranReadMinutes": { "type": "number" },
+        "quranPagesRead": { "type": "number" },
+        "morningAzkarDone": { "type": "boolean" },
+        "eveningAzkarDone": { "type": "boolean" },
+        "fastingDone": { "type": "boolean" },
+        "sadaqahDone": { "type": "boolean" },
+        "sunnahDone": { "type": "boolean" },
+        "duaDone": { "type": "boolean" },
+        "quizDone": { "type": "boolean" },
+        "tasbihCount": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["dateKey", "userId", "prayers", "morningAzkarDone", "eveningAzkarDone", "fastingDone", "sadaqahDone", "tasbihCount"]
+    },
+    "LeaderboardPublicEntry": {
+      "title": "LeaderboardPublicEntry",
+      "description": "Non-PII public ranking entry derived from real user activity",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "city": { "type": "string", "maxLength": 100 },
+        "totalCoins": { "type": "number" },
+        "streakDays": { "type": "number" },
+        "tier": { "type": "string", "maxLength": 100 },
+        "isFlagged": { "type": "boolean" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "name", "totalCoins", "streakDays", "updatedAt"]
+    },
+    "AdminAccount": {
+      "title": "AdminAccount",
+      "description": "Authorized administrator account and role definition",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 200 },
+        "name": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["super_admin", "admin", "content_manager"] },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "createdAt": { "type": "number" },
+        "createdBy": { "type": "string", "maxLength": 200 },
+        "lastLoginAt": { "type": "number" }
+      },
+      "required": ["id", "email", "name", "role", "status", "createdAt"]
+    },
+    "AppSystemConfig": {
+      "title": "AppSystemConfig",
+      "description": "Global prayer calculation and system configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "calcMethod": { "type": "string", "enum": ["karachi", "mwl", "makkah", "egypt", "isna"] },
+        "juristicMethod": { "type": "string", "enum": ["hanafi", "shafii"] },
+        "defaultDistrictId": { "type": "string", "maxLength": 64 },
+        "timezone": { "type": "string", "maxLength": 100 },
+        "hijriDayAdjustment": { "type": "number" },
+        "fajrOffset": { "type": "number" },
+        "dhuhrOffset": { "type": "number" },
+        "asrOffset": { "type": "number" },
+        "maghribOffset": { "type": "number" },
+        "ishaOffset": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "updatedBy": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "calcMethod", "juristicMethod", "defaultDistrictId", "timezone", "updatedAt"]
+    },
+    "AzanAudioConfig": {
+      "title": "AzanAudioConfig",
+      "description": "Managed Azan audio item with license and active status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "nameBn": { "type": "string", "maxLength": 200 },
+        "nameEn": { "type": "string", "maxLength": 200 },
+        "reciterName": { "type": "string", "maxLength": 200 },
+        "sourceName": { "type": "string", "maxLength": 200 },
+        "descriptionBn": { "type": "string", "maxLength": 500 },
+        "badgeBn": { "type": "string", "maxLength": 100 },
+        "audioUrl": { "type": "string", "maxLength": 2000 },
+        "durationSeconds": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "isBuiltIn": { "type": "boolean" },
+        "prayerType": { "type": "string", "enum": ["all", "fajr"] },
+        "licenseInfo": { "type": "string", "maxLength": 500 },
+        "updatedAt": { "type": "number" },
+        "updatedBy": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "nameBn", "reciterName", "audioUrl", "durationSeconds", "isActive", "updatedAt"]
+    },
+    "ManagedContentItem": {
+      "title": "ManagedContentItem",
+      "description": "Dynamic CMS content item (article, dua, daily_amal, notification_template)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["article", "dua", "daily_amal", "notification_template"] },
+        "titleBn": { "type": "string", "maxLength": 300 },
+        "categoryBn": { "type": "string", "maxLength": 150 },
+        "arabic": { "type": "string", "maxLength": 5000 },
+        "transliteration": { "type": "string", "maxLength": 5000 },
+        "translationBn": { "type": "string", "maxLength": 10000 },
+        "reference": { "type": "string", "maxLength": 300 },
+        "status": { "type": "string", "enum": ["draft", "published", "unpublished"] },
+        "publishDate": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "createdBy": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "type", "titleBn", "translationBn", "status", "createdAt", "updatedAt"]
+    },
+    "ManagedQuizQuestion": {
+      "title": "ManagedQuizQuestion",
+      "description": "Public quiz question metadata without exposing correct answer index prematurely",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 100 },
+        "categoryBn": { "type": "string", "maxLength": 150 },
+        "difficulty": { "type": "string", "enum": ["সহজ", "মাঝারি", "কঠিন"] },
+        "questionBn": { "type": "string", "maxLength": 1000 },
+        "optionsBn": { "type": "array" },
+        "explanationBn": { "type": "string", "maxLength": 2000 },
+        "reference": { "type": "string", "maxLength": 300 },
+        "publishDate": { "type": "string", "maxLength": 30 },
+        "expiryDate": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["draft", "published", "unpublished"] },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "createdBy": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "categoryBn", "difficulty", "questionBn", "optionsBn", "explanationBn", "reference", "publishDate", "status", "createdAt", "updatedAt"]
+    },
+    "QuizSecretAnswer": {
+      "title": "QuizSecretAnswer",
+      "description": "Protected correct answer for a quiz question (Admin/Backend access only)",
+      "type": "object",
+      "properties": {
+        "quizId": { "type": "string", "maxLength": 128 },
+        "correctAnswerIndex": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["quizId", "correctAnswerIndex", "updatedAt"]
+    },
+    "ManagedNotification": {
+      "title": "ManagedNotification",
+      "description": "Admin broadcast or scheduled notification separate from Azan alerts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 250 },
+        "message": { "type": "string", "maxLength": 2000 },
+        "targetAudience": { "type": "string", "enum": ["all_users", "active_users", "new_users"] },
+        "status": { "type": "string", "enum": ["sent", "scheduled", "cancelled"] },
+        "scheduledFor": { "type": "string", "maxLength": 64 },
+        "sentAt": { "type": "number" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "createdBy": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "title", "message", "targetAudience", "status", "createdAt", "updatedAt"]
+    },
+    "AppAnnouncement": {
+      "title": "AppAnnouncement",
+      "description": "App-wide announcement banner or notice",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "titleBn": { "type": "string", "maxLength": 250 },
+        "messageBn": { "type": "string", "maxLength": 2000 },
+        "type": { "type": "string", "enum": ["update", "maintenance", "islamic_reminder", "new_feature"] },
+        "priority": { "type": "string", "enum": ["normal", "important", "urgent"] },
+        "status": { "type": "string", "enum": ["draft", "published", "unpublished"] },
+        "publishDate": { "type": "string", "maxLength": 30 },
+        "expiryDate": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "createdBy": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "titleBn", "messageBn", "type", "priority", "status", "createdAt", "updatedAt"]
+    },
+    "RankingModerationFlag": {
+      "title": "RankingModerationFlag",
+      "description": "Suspicious ranking activity flag and audit record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 150 },
+        "reportedCoins": { "type": "number" },
+        "reportedStreak": { "type": "number" },
+        "reason": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["flagged", "under_review", "resolved", "dismissed"] },
+        "adminNote": { "type": "string", "maxLength": 1000 },
+        "flaggedBy": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "userName", "reportedCoins", "reason", "status", "flaggedBy", "createdAt", "updatedAt"]
+    },
+    "AdminAuditLog": {
+      "title": "AdminAuditLog",
+      "description": "Immutable administrator audit trail entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "adminId": { "type": "string", "maxLength": 128 },
+        "adminEmail": { "type": "string", "maxLength": 200 },
+        "adminName": { "type": "string", "maxLength": 150 },
+        "adminRole": { "type": "string", "maxLength": 50 },
+        "action": { "type": "string", "maxLength": 100 },
+        "targetType": { "type": "string", "maxLength": 100 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 1000 },
+        "dateStr": { "type": "string", "maxLength": 30 },
+        "timeStr": { "type": "string", "maxLength": 30 },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "adminId", "adminEmail", "action", "details", "dateStr", "timeStr", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document and aggregate stats"
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": "PersonalNote",
+      "description": "User-specific personal notes (strictly private to owner)"
+    },
+    "/users/{userId}/bookmarks/{bookmarkId}": {
+      "schema": "BookmarkItem",
+      "description": "User-specific bookmarks"
+    },
+    "/users/{userId}/amal_records/{dateKey}": {
+      "schema": "DailyAmalRecord",
+      "description": "User-specific daily amal records"
+    },
+    "/leaderboard/{userId}": {
+      "schema": "LeaderboardPublicEntry",
+      "description": "Non-PII public leaderboard entries from real user activity"
+    },
+    "/admins/{adminId}": {
+      "schema": "AdminAccount",
+      "description": "Authorized admin accounts and roles"
+    },
+    "/app_config/{configId}": {
+      "schema": "AppSystemConfig",
+      "description": "Global prayer calculation and system configuration"
+    },
+    "/azan_catalog/{azanId}": {
+      "schema": "AzanAudioConfig",
+      "description": "Managed Azan audio catalog"
+    },
+    "/cms_contents/{contentId}": {
+      "schema": "ManagedContentItem",
+      "description": "Dynamic CMS content items"
+    },
+    "/quizzes/{quizId}": {
+      "schema": "ManagedQuizQuestion",
+      "description": "Public quiz questions"
+    },
+    "/quiz_secrets/{quizId}": {
+      "schema": "QuizSecretAnswer",
+      "description": "Protected correct answers for quizzes (Admin only)"
+    },
+    "/admin_notifications/{notificationId}": {
+      "schema": "ManagedNotification",
+      "description": "Admin broadcast and scheduled notifications"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "AppAnnouncement",
+      "description": "App-wide announcements"
+    },
+    "/ranking_flags/{flagId}": {
+      "schema": "RankingModerationFlag",
+      "description": "Suspicious ranking activity flags"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AdminAuditLog",
+      "description": "Immutable administrator audit logs"
+    }
+  }
+}

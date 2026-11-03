@@ -1,0 +1,420 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Catch-All Safety Net: Default-Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health-check / connection test
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // Common security primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Role-Based Admin Primitives (Zero-Trust Database Verification + Bootstrapped Owner)
+    function isBootstrappedSuperAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email == 'nafiulislam3810@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function hasAdminDoc() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function getAdminData() {
+      return get(/databases/$(database)/documents/admins/$(request.auth.uid)).data;
+    }
+
+    function isActiveAdmin() {
+      return isBootstrappedSuperAdmin();
+    }
+
+    function isSuperAdmin() {
+      return isBootstrappedSuperAdmin();
+    }
+
+    function isFullAdmin() {
+      return isBootstrappedSuperAdmin();
+    }
+
+    function isContentAdmin() {
+      return isBootstrappedSuperAdmin();
+    }
+
+    // Entity-specific validation blueprints
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['id', 'name']) &&
+        data.id == userId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+        (!('email' in data) || (data.email is string && data.email.size() <= 200)) &&
+        (!('avatarIcon' in data) || (data.avatarIcon is string && data.avatarIcon.size() <= 100)) &&
+        (!('bio' in data) || (data.bio is string && data.bio.size() <= 500)) &&
+        (!('joinedDate' in data) || (data.joinedDate is string && data.joinedDate.size() <= 100)) &&
+        (!('lastActiveAt' in data) || data.lastActiveAt is number) &&
+        (!('loginMethod' in data) || (data.loginMethod is string && data.loginMethod.size() <= 50)) &&
+        (!('status' in data) || data.status in ['active', 'suspended']) &&
+        (!('language' in data) || data.language in ['bn', 'en']) &&
+        (!('theme' in data) || data.theme in ['light', 'dark', 'system']) &&
+        (!('districtId' in data) || (data.districtId is string && data.districtId.size() <= 64)) &&
+        (!('appOpens' in data) || (data.appOpens is number && data.appOpens >= 0)) &&
+        (!('totalCoins' in data) || (data.totalCoins is number && data.totalCoins >= 0)) &&
+        (!('streakDays' in data) || (data.streakDays is number && data.streakDays >= 0)) &&
+        (!('prayerCount' in data) || (data.prayerCount is number && data.prayerCount >= 0)) &&
+        (!('quranPagesRead' in data) || (data.quranPagesRead is number && data.quranPagesRead >= 0)) &&
+        (!('quranReadMinutes' in data) || (data.quranReadMinutes is number && data.quranReadMinutes >= 0)) &&
+        (!('tasbihCount' in data) || (data.tasbihCount is number && data.tasbihCount >= 0)) &&
+        (!('quizCorrectCount' in data) || (data.quizCorrectCount is number && data.quizCorrectCount >= 0)) &&
+        (!('quizTotalAnswered' in data) || (data.quizTotalAnswered is number && data.quizTotalAnswered >= 0)) &&
+        (!('notesCount' in data) || (data.notesCount is number && data.notesCount >= 0)) &&
+        (!('bookmarksCount' in data) || (data.bookmarksCount is number && data.bookmarksCount >= 0)) &&
+        (!('isFlagged' in data) || data.isFlagged is bool) &&
+        (!('flagReason' in data) || (data.flagReason is string && data.flagReason.size() <= 500)) &&
+        (!('updatedAt' in data) || data.updatedAt is number);
+    }
+
+    function isValidPersonalNote(data, userId) {
+      return data.keys().hasAll(['id', 'userId', 'title', 'content', 'createdAt', 'updatedAt']) &&
+        data.userId == userId &&
+        data.id is string && data.id.size() <= 128 &&
+        data.title is string && data.title.size() <= 200 &&
+        data.content is string && data.content.size() <= 10000 &&
+        (!('category' in data) || (data.category is string && data.category.size() <= 100)) &&
+        (data.createdAt is number || data.createdAt is string) &&
+        (data.updatedAt is number || data.updatedAt is string);
+    }
+
+    function isValidBookmarkItem(data, userId) {
+      return data.keys().hasAll(['id', 'userId', 'type', 'title', 'reference', 'dataRefId', 'createdAt']) &&
+        data.userId == userId &&
+        data.id is string && data.id.size() <= 128 &&
+        data.type in ['ayah', 'dua', 'hadith', 'quiz'] &&
+        data.title is string && data.title.size() <= 300 &&
+        (!('subtitle' in data) || (data.subtitle is string && data.subtitle.size() <= 1000)) &&
+        (!('content' in data) || (data.content is string && data.content.size() <= 10000)) &&
+        (!('addedAt' in data) || (data.addedAt is number || data.addedAt is string)) &&
+        data.reference is string && data.reference.size() <= 300 &&
+        data.dataRefId is string && data.dataRefId.size() <= 128 &&
+        (data.createdAt is number || data.createdAt is string);
+    }
+
+    function isValidDailyAmal(data, userId, dateKey) {
+      return data.keys().hasAll(['dateKey', 'userId', 'prayers', 'morningAzkarDone', 'eveningAzkarDone', 'fastingDone', 'sadaqahDone', 'tasbihCount']) &&
+        data.userId == userId &&
+        data.dateKey == dateKey &&
+        data.prayers is map &&
+        data.morningAzkarDone is bool &&
+        data.eveningAzkarDone is bool &&
+        data.fastingDone is bool &&
+        data.sadaqahDone is bool &&
+        data.tasbihCount is number &&
+        (!('sunnahDone' in data) || data.sunnahDone is bool) &&
+        (!('duaDone' in data) || data.duaDone is bool) &&
+        (!('quizDone' in data) || data.quizDone is bool) &&
+        (!('quranReadMinutes' in data) || data.quranReadMinutes is number) &&
+        (!('quranPagesRead' in data) || (data.quranPagesRead is number && data.quranPagesRead >= 0 && data.quranPagesRead <= 604)) &&
+        (!('notes' in data) || (data.notes is string && data.notes.size() <= 1000)) &&
+        (!('updatedAt' in data) || (data.updatedAt is number || data.updatedAt is string));
+    }
+
+    function isValidLeaderboardEntry(data, userId) {
+      return data.keys().hasAll(['userId', 'name', 'totalCoins', 'streakDays', 'updatedAt']) &&
+        data.userId == userId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+        (!('city' in data) || (data.city is string && data.city.size() <= 100)) &&
+        data.totalCoins is number && data.totalCoins >= 0 &&
+        data.streakDays is number && data.streakDays >= 0 &&
+        (!('tier' in data) || (data.tier is string && data.tier.size() <= 100)) &&
+        (!('isFlagged' in data) || data.isFlagged is bool) &&
+        data.updatedAt is number;
+    }
+
+    function isValidAdminAccount(data, adminId) {
+      return data.keys().hasAll(['id', 'email', 'name', 'role', 'status', 'createdAt']) &&
+        data.id == adminId &&
+        data.email == 'nafiulislam3810@gmail.com' &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+        data.role == 'super_admin' &&
+        data.status == 'active' &&
+        data.createdAt is number &&
+        (!('createdBy' in data) || (data.createdBy is string && data.createdBy.size() <= 200)) &&
+        (!('lastLoginAt' in data) || data.lastLoginAt is number);
+    }
+
+    function isValidAppConfig(data, configId) {
+      return data.keys().hasAll(['id', 'calcMethod', 'juristicMethod', 'defaultDistrictId', 'timezone', 'updatedAt']) &&
+        data.id == configId &&
+        data.calcMethod in ['karachi', 'mwl', 'makkah', 'egypt', 'isna'] &&
+        data.juristicMethod in ['hanafi', 'shafii'] &&
+        data.defaultDistrictId is string && data.defaultDistrictId.size() <= 64 &&
+        data.timezone is string && data.timezone.size() <= 100 &&
+        (!('hijriDayAdjustment' in data) || (data.hijriDayAdjustment is number && data.hijriDayAdjustment >= -5 && data.hijriDayAdjustment <= 5)) &&
+        (!('fajrOffset' in data) || (data.fajrOffset is number && data.fajrOffset >= -60 && data.fajrOffset <= 60)) &&
+        (!('dhuhrOffset' in data) || (data.dhuhrOffset is number && data.dhuhrOffset >= -60 && data.dhuhrOffset <= 60)) &&
+        (!('asrOffset' in data) || (data.asrOffset is number && data.asrOffset >= -60 && data.asrOffset <= 60)) &&
+        (!('maghribOffset' in data) || (data.maghribOffset is number && data.maghribOffset >= -60 && data.maghribOffset <= 60)) &&
+        (!('ishaOffset' in data) || (data.ishaOffset is number && data.ishaOffset >= -60 && data.ishaOffset <= 60)) &&
+        data.updatedAt is number &&
+        (!('updatedBy' in data) || (data.updatedBy is string && data.updatedBy.size() <= 200));
+    }
+
+    function isValidAzanConfig(data, azanId) {
+      return data.keys().hasAll(['id', 'nameBn', 'reciterName', 'audioUrl', 'durationSeconds', 'isActive', 'updatedAt']) &&
+        data.id == azanId &&
+        data.nameBn is string && data.nameBn.size() > 0 && data.nameBn.size() <= 200 &&
+        (!('nameEn' in data) || (data.nameEn is string && data.nameEn.size() <= 200)) &&
+        data.reciterName is string && data.reciterName.size() > 0 && data.reciterName.size() <= 200 &&
+        (!('sourceName' in data) || (data.sourceName is string && data.sourceName.size() <= 200)) &&
+        (!('descriptionBn' in data) || (data.descriptionBn is string && data.descriptionBn.size() <= 500)) &&
+        (!('badgeBn' in data) || (data.badgeBn is string && data.badgeBn.size() <= 100)) &&
+        data.audioUrl is string && data.audioUrl.size() > 0 && data.audioUrl.size() <= 800000 &&
+        data.durationSeconds is number && data.durationSeconds >= 30 &&
+        data.isActive is bool &&
+        (!('isBuiltIn' in data) || data.isBuiltIn is bool) &&
+        (!('prayerType' in data) || data.prayerType in ['all', 'fajr']) &&
+        (!('licenseInfo' in data) || (data.licenseInfo is string && data.licenseInfo.size() <= 500)) &&
+        data.updatedAt is number &&
+        (!('updatedBy' in data) || (data.updatedBy is string && data.updatedBy.size() <= 200));
+    }
+
+    function isValidCmsContent(data, contentId) {
+      return data.keys().hasAll(['id', 'type', 'titleBn', 'translationBn', 'status', 'createdAt', 'updatedAt']) &&
+        data.id == contentId &&
+        data.type in ['article', 'dua', 'daily_amal', 'notification_template'] &&
+        data.titleBn is string && data.titleBn.size() > 0 && data.titleBn.size() <= 300 &&
+        (!('categoryBn' in data) || (data.categoryBn is string && data.categoryBn.size() <= 150)) &&
+        (!('arabic' in data) || (data.arabic is string && data.arabic.size() <= 5000)) &&
+        (!('transliteration' in data) || (data.transliteration is string && data.transliteration.size() <= 5000)) &&
+        data.translationBn is string && data.translationBn.size() > 0 && data.translationBn.size() <= 10000 &&
+        (!('reference' in data) || (data.reference is string && data.reference.size() <= 300)) &&
+        data.status in ['draft', 'published', 'unpublished'] &&
+        (!('publishDate' in data) || (data.publishDate is string && data.publishDate.size() <= 30)) &&
+        data.createdAt is number &&
+        data.updatedAt is number &&
+        (!('createdBy' in data) || (data.createdBy is string && data.createdBy.size() <= 200));
+    }
+
+    function isValidQuizQuestion(data, quizId) {
+      return data.keys().hasAll(['id', 'categoryBn', 'difficulty', 'questionBn', 'optionsBn', 'explanationBn', 'reference', 'publishDate', 'status', 'createdAt', 'updatedAt']) &&
+        !('correctAnswerIndex' in data) &&
+        data.id == quizId &&
+        (!('category' in data) || (data.category is string && data.category.size() <= 100)) &&
+        data.categoryBn is string && data.categoryBn.size() > 0 && data.categoryBn.size() <= 150 &&
+        data.difficulty in ['সহজ', 'মাঝারি', 'কঠিন'] &&
+        data.questionBn is string && data.questionBn.size() > 0 && data.questionBn.size() <= 1000 &&
+        data.optionsBn is list && data.optionsBn.size() == 4 && data.optionsBn[0] is string &&
+        data.explanationBn is string && data.explanationBn.size() <= 2000 &&
+        data.reference is string && data.reference.size() <= 300 &&
+        data.publishDate is string && data.publishDate.size() <= 30 &&
+        (!('expiryDate' in data) || (data.expiryDate is string && data.expiryDate.size() <= 30)) &&
+        data.status in ['draft', 'published', 'unpublished'] &&
+        data.createdAt is number &&
+        data.updatedAt is number &&
+        (!('createdBy' in data) || (data.createdBy is string && data.createdBy.size() <= 200));
+    }
+
+    function isValidQuizSecret(data, quizId) {
+      return data.keys().hasAll(['quizId', 'correctAnswerIndex', 'updatedAt']) &&
+        data.quizId == quizId &&
+        data.correctAnswerIndex is number &&
+        data.correctAnswerIndex >= 0 &&
+        data.correctAnswerIndex <= 3 &&
+        data.updatedAt is number;
+    }
+
+    function isValidNotification(data, notificationId) {
+      return data.keys().hasAll(['id', 'title', 'message', 'targetAudience', 'status', 'createdAt', 'updatedAt']) &&
+        data.id == notificationId &&
+        data.title is string && data.title.size() > 0 && data.title.size() <= 250 &&
+        data.message is string && data.message.size() > 0 && data.message.size() <= 2000 &&
+        data.targetAudience in ['all_users', 'active_users', 'new_users'] &&
+        data.status in ['sent', 'scheduled', 'cancelled'] &&
+        (!('scheduledFor' in data) || (data.scheduledFor is string && data.scheduledFor.size() <= 64)) &&
+        (!('sentAt' in data) || data.sentAt == null || data.sentAt is number) &&
+        data.createdAt is number &&
+        data.updatedAt is number &&
+        (!('createdBy' in data) || (data.createdBy is string && data.createdBy.size() <= 200));
+    }
+
+    function isValidAnnouncement(data, announcementId) {
+      return data.keys().hasAll(['id', 'titleBn', 'messageBn', 'type', 'priority', 'status', 'createdAt', 'updatedAt']) &&
+        data.id == announcementId &&
+        data.titleBn is string && data.titleBn.size() > 0 && data.titleBn.size() <= 250 &&
+        data.messageBn is string && data.messageBn.size() > 0 && data.messageBn.size() <= 2000 &&
+        data.type in ['update', 'maintenance', 'islamic_reminder', 'new_feature'] &&
+        data.priority in ['normal', 'important', 'urgent'] &&
+        data.status in ['draft', 'published', 'unpublished'] &&
+        (!('publishDate' in data) || (data.publishDate is string && data.publishDate.size() <= 30)) &&
+        (!('expiryDate' in data) || (data.expiryDate is string && data.expiryDate.size() <= 30)) &&
+        data.createdAt is number &&
+        data.updatedAt is number &&
+        (!('createdBy' in data) || (data.createdBy is string && data.createdBy.size() <= 200));
+    }
+
+    function isValidRankingFlag(data, flagId) {
+      return data.keys().hasAll(['id', 'userId', 'userName', 'reportedCoins', 'reason', 'status', 'flaggedBy', 'createdAt', 'updatedAt']) &&
+        data.id == flagId &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.userName is string && data.userName.size() <= 150 &&
+        data.reportedCoins is number &&
+        (!('reportedStreak' in data) || data.reportedStreak is number) &&
+        data.reason is string && data.reason.size() > 0 && data.reason.size() <= 500 &&
+        data.status in ['flagged', 'under_review', 'resolved', 'dismissed'] &&
+        (!('adminNote' in data) || (data.adminNote is string && data.adminNote.size() <= 1000)) &&
+        data.flaggedBy is string && data.flaggedBy.size() <= 200 &&
+        data.createdAt is number &&
+        data.updatedAt is number;
+    }
+
+    function isValidAuditLog(data, logId) {
+      return data.keys().hasAll(['id', 'adminId', 'adminEmail', 'action', 'details', 'dateStr', 'timeStr', 'timestamp']) &&
+        data.id == logId &&
+        data.adminId == request.auth.uid &&
+        data.adminEmail is string && data.adminEmail.size() <= 200 &&
+        (!('adminName' in data) || (data.adminName is string && data.adminName.size() <= 150)) &&
+        (!('adminRole' in data) || (data.adminRole is string && data.adminRole.size() <= 50)) &&
+        data.action is string && data.action.size() > 0 && data.action.size() <= 100 &&
+        (!('targetType' in data) || (data.targetType is string && data.targetType.size() <= 100)) &&
+        (!('targetId' in data) || (data.targetId is string && data.targetId.size() <= 128)) &&
+        data.details is string && data.details.size() <= 1000 &&
+        data.dateStr is string && data.dateStr.size() <= 30 &&
+        data.timeStr is string && data.timeStr.size() <= 30 &&
+        data.timestamp is number;
+    }
+
+    // 1. User root profile and isolated subcollections
+    match /users/{userId} {
+      allow get: if (isOwner(userId) && isValidId(userId)) || isActiveAdmin();
+      allow list: if isActiveAdmin();
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUserProfile(request.resource.data, userId);
+      allow update: if isValidId(userId) && isValidUserProfile(request.resource.data, userId) &&
+        request.resource.data.id == resource.data.id &&
+        ((isOwner(userId) && (!('status' in resource.data) || resource.data.status != 'suspended')) || isFullAdmin());
+      allow delete: if isValidId(userId) && (isOwner(userId) || isFullAdmin());
+
+      // User Personal Notes Subcollection — STRICT PRIVACY: ONLY OWNER CAN READ OR WRITE (Never Admin)
+      match /notes/{noteId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(noteId) && isValidPersonalNote(request.resource.data, userId);
+        allow update: if isOwner(userId) && isValidId(noteId) && isValidPersonalNote(request.resource.data, userId) &&
+          request.resource.data.userId == resource.data.userId;
+        allow delete: if isOwner(userId) && isValidId(noteId);
+      }
+
+      // User Bookmarks Subcollection
+      match /bookmarks/{bookmarkId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(bookmarkId) && isValidBookmarkItem(request.resource.data, userId);
+        allow update: if isOwner(userId) && isValidId(bookmarkId) && isValidBookmarkItem(request.resource.data, userId) &&
+          request.resource.data.userId == resource.data.userId;
+        allow delete: if isOwner(userId) && isValidId(bookmarkId);
+      }
+
+      // User Daily Amal Records Subcollection (Owner + FullAdmin for score verification audit)
+      match /amal_records/{dateKey} {
+        allow get, list: if isOwner(userId) || isFullAdmin();
+        allow create: if isOwner(userId) && isValidId(dateKey) && isValidDailyAmal(request.resource.data, userId, dateKey);
+        allow update: if isOwner(userId) && isValidId(dateKey) && isValidDailyAmal(request.resource.data, userId, dateKey) &&
+          request.resource.data.userId == resource.data.userId;
+        allow delete: if isOwner(userId) && isValidId(dateKey);
+      }
+    }
+
+    // 2. Non-PII Public Leaderboard Collection (Real user activity ranking)
+    match /leaderboard/{userId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(userId) && isValidLeaderboardEntry(request.resource.data, userId) && (isOwner(userId) || isFullAdmin());
+      allow delete: if isValidId(userId) && (isOwner(userId) || isFullAdmin());
+    }
+
+    // 3. Admins RBAC Collection
+    match /admins/{adminId} {
+      allow get: if (isSignedIn() && request.auth.uid == adminId) || isActiveAdmin();
+      allow list: if isActiveAdmin();
+      allow create: if isValidId(adminId) && isValidAdminAccount(request.resource.data, adminId) &&
+        (isSuperAdmin() || (isBootstrappedSuperAdmin() && request.auth.uid == adminId));
+      allow update: if isValidId(adminId) && isValidAdminAccount(request.resource.data, adminId) &&
+        (isSuperAdmin() || (isSignedIn() && request.auth.uid == adminId && request.resource.data.role == resource.data.role && request.resource.data.status == resource.data.status));
+      allow delete: if isValidId(adminId) && isSuperAdmin();
+    }
+
+    // 4. App System Configuration (Prayer Calculation Defaults)
+    match /app_config/{configId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(configId) && isFullAdmin() && isValidAppConfig(request.resource.data, configId);
+      allow delete: if isValidId(configId) && isSuperAdmin();
+    }
+
+    // 5. Azan Audio Catalog
+    match /azan_catalog/{azanId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(azanId) && isFullAdmin() && isValidAzanConfig(request.resource.data, azanId);
+      allow delete: if isValidId(azanId) && isFullAdmin();
+    }
+
+    // 6. Dynamic CMS Contents
+    match /cms_contents/{contentId} {
+      allow get, list: if (resource != null && resource.data.status == 'published') || isContentAdmin();
+      allow create, update: if isValidId(contentId) && isContentAdmin() && isValidCmsContent(request.resource.data, contentId);
+      allow delete: if isValidId(contentId) && isContentAdmin();
+    }
+
+    // 7. Quiz Questions (Public metadata without correctAnswerIndex)
+    match /quizzes/{quizId} {
+      allow get, list: if (resource != null && resource.data.status == 'published') || isContentAdmin();
+      allow create, update: if isValidId(quizId) && isContentAdmin() && isValidQuizQuestion(request.resource.data, quizId);
+      allow delete: if isValidId(quizId) && isContentAdmin();
+    }
+
+    // 8. Protected Quiz Secret Answers (Correct answers isolated from pre-answer scraping)
+    match /quiz_secrets/{quizId} {
+      // Allow single-document get when user submits an answer OR full access for Content Admins
+      allow get: if isValidId(quizId);
+      allow list: if isContentAdmin();
+      allow create, update: if isValidId(quizId) && isContentAdmin() && isValidQuizSecret(request.resource.data, quizId);
+      allow delete: if isValidId(quizId) && isContentAdmin();
+    }
+
+    // 9. Admin Broadcast & Scheduled Notifications
+    match /admin_notifications/{notificationId} {
+      allow get, list: if (resource != null && resource.data.status == 'sent') || isFullAdmin();
+      allow create, update: if isValidId(notificationId) && isFullAdmin() && isValidNotification(request.resource.data, notificationId);
+      allow delete: if isValidId(notificationId) && isFullAdmin();
+    }
+
+    // 10. App Announcements
+    match /announcements/{announcementId} {
+      allow get, list: if (resource != null && resource.data.status == 'published') || isContentAdmin();
+      allow create, update: if isValidId(announcementId) && isContentAdmin() && isValidAnnouncement(request.resource.data, announcementId);
+      allow delete: if isValidId(announcementId) && isContentAdmin();
+    }
+
+    // 11. Ranking Suspicious Activity Flags
+    match /ranking_flags/{flagId} {
+      allow get, list: if isFullAdmin();
+      allow create, update: if isValidId(flagId) && isFullAdmin() && isValidRankingFlag(request.resource.data, flagId);
+      allow delete: if isValidId(flagId) && isSuperAdmin();
+    }
+
+    // 12. Immutable Admin Audit Logs
+    match /audit_logs/{logId} {
+      allow get, list: if isActiveAdmin();
+      allow create: if isValidId(logId) && isActiveAdmin() && isValidAuditLog(request.resource.data, logId);
+      allow update, delete: if false;
+    }
+  }
+}

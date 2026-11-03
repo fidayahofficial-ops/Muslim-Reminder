@@ -1,0 +1,16 @@
+{
+  "packageId": "com.muslimreminder.app",
+  "host": "ais-pre-d5hwhmicn644gvb67vdjtz-839110874572.asia-southeast1.run.app",
+  "name": "Muslim Reminder (মুসলিম রিমাইন্ডার)",
+  "launcherName": "Muslim Reminder",
+  "display": "standalone",
+  "themeColor": "#064e3b",
+  "navigationColor": "#064e3b",
+  "backgroundColor": "#064e3b",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "/icons/icon-512x512.png",
+  "maskableIconUrl": "/icons/icon-maskable-512x512.png",
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1
+}

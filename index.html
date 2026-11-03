@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Muslim Reminder — মুসলিম রিমাইন্ডার</title>
+    <meta name="description" content="Muslim Reminder (মুসলিম রিমাইন্ডার) — আপনার দ্বীনের সঙ্গী। নির্ভুল নামাজের সময়, আজান, কিবলা কম্পাস, পূর্ণাঙ্গ কুরআন, রমজান ক্যালেন্ডার, দোয়া ও সহিহ সুন্নাহ।" />
+    <meta property="og:title" content="Muslim Reminder — মুসলিম রিমাইন্ডার" />
+    <meta property="og:description" content="Muslim Reminder (মুসলিম রিমাইন্ডার) — আপনার দ্বীনের সঙ্গী। নির্ভুল নামাজের সময়, আজান, কিবলা কম্পাস, পূর্ণাঙ্গ কুরআন, রমজান ক্যালেন্ডার, দোয়া ও সহিহ সুন্নাহ।" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/app-logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Muslim Reminder — মুসলিম রিমাইন্ডার" />
+    <meta name="twitter:description" content="Muslim Reminder (মুসলিম রিমাইন্ডার) — আপনার দ্বীনের সঙ্গী।" />
+    <meta name="twitter:image" content="/app-logo.png" />
+    <meta name="theme-color" content="#064e3b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Muslim Reminder" />
+    <meta name="application-name" content="Muslim Reminder" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          const raw = localStorage.getItem('waqto_settings_v1');
+          const settings = raw ? JSON.parse(raw) : null;
+          const theme = settings ? settings.theme : 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          }
+          if ('serviceWorker' in navigator && (location.hostname.includes('run.app') || location.hostname === 'localhost')) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+              for (var i = 0; i < regs.length; i++) {
+                regs[i].unregister();
+              }
+            }).catch(function() {});
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 antialiased selection:bg-emerald-200 selection:text-emerald-950">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

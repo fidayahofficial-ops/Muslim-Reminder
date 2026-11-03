@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --primary: 158 64% 32%; /* #177a56 - Qalbee deep emerald */
+  --primary-light: 158 55% 42%;
+  --primary-dark: 158 70% 22%;
+  --gold: 38 85% 55%; /* #f59e0b - Qalbee gold */
+  --gold-light: 38 90% 68%;
+  --cream: 45 40% 97%;
+  --bg-canvas: #f7faf8;
+  --bg-card: #ffffff;
+  --border-subtle: #e2ede7;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --primary: 158 58% 48%;
+  --primary-light: 158 50% 60%;
+  --primary-dark: 158 62% 38%;
+  --gold: 38 75% 55%;
+  --gold-light: 38 80% 68%;
+  --cream: 0 0% 7%;
+  --bg-canvas: #0c120f;
+  --bg-card: #131b17;
+  --border-subtle: #1e2b24;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+    scroll-behavior: auto !important;
+    overflow-y: auto;
+    overflow-x: clip;
+  }
+
+  body {
+    font-family: 'Noto Sans Bengali', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeSpeed;
+    line-height: 1.6;
+    letter-spacing: normal;
+    background-color: var(--bg-canvas);
+    -webkit-overflow-scrolling: touch;
+    overflow-y: visible;
+    overflow-x: clip;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Prevent awkward word breaks and text clipping in Bengali scripts */
+  p, span, h1, h2, h3, h4, h5, h6, button, label {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  /* Ensure Bengali ascenders and descenders (ী, ূ, ৈ, ৌ, ঋ, হ্রস্ব-উ, র-ফলা) are never clipped */
+  p, span, h1, h2, h3, h4, h5, h6 {
+    line-height: inherit;
+  }
+
+  input, select, textarea, button {
+    font-family: inherit;
+  }
+}
+
+/* GPU hardware layer for sticky & fixed elements to eliminate scroll jitter */
+.gpu-layer {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Offscreen layout and render skipping for ultra-fast list scrolling */
+.list-item-optimized {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 76px;
+}
+
+/* Dedicated Arabic font class */
+.font-arabic, [dir="rtl"], [lang="ar"] {
+  font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+  direction: rtl;
+  line-height: 2.2;
+}
+
+/* Dedicated clean Bengali font class */
+.font-bengali, [lang="bn"] {
+  font-family: 'Noto Sans Bengali', 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* Dedicated English / Latin font class */
+.font-english {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Qalbee custom animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(23, 122, 86, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(23, 122, 86, 0.5);
+}
+
+/* Android & Mobile Safe Area Utilities */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-left {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+.safe-right {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Ensure no unwanted horizontal overflow on any Android screen size without creating nested scroll containers */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+}
+
+/* Remove black focus outline/border on Recharts SVG and chart layers when tapped/clicked */
+.recharts-wrapper,
+.recharts-wrapper *,
+.recharts-surface,
+.recharts-layer,
+.recharts-sector,
+.recharts-curve,
+.recharts-area,
+.recharts-bar-rectangle {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus,
+.recharts-wrapper:focus-visible,
+.recharts-wrapper *:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
