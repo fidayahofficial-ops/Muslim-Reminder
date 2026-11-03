@@ -14,13 +14,13 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.11.1"
       - run: bun install
       - run: bun run build
+      - run: rm -rf android
+      - run: bun add @capacitor/android
+      - run: npx cap add android
       - run: npx cap sync android
-      - run: cd android && gradle assembleDebug
+      - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: app-debug
