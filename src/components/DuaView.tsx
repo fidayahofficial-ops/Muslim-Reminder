@@ -191,10 +191,10 @@ export const DuaView: React.FC<DuaViewProps> = React.memo(({ onOpenShareModal })
               {/* Header with Title and Action buttons */}
               <div className="flex items-start justify-between gap-2 border-b border-stone-100 dark:border-stone-800/80 pb-2.5">
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100 leading-snug">
+                  <h3 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 leading-snug">
                     {dua.titleBn}
                   </h3>
-                  <div className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400 mt-1 font-medium">
+                  <div className="flex items-center gap-1.5 text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1 font-medium">
                     <span>{dua.categoryBn}</span>
                     {dua.grade && (
                       <>
@@ -212,9 +212,9 @@ export const DuaView: React.FC<DuaViewProps> = React.memo(({ onOpenShareModal })
                     title="কপি করুন"
                   >
                     {copiedId === dua.id ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
+                      <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
                     ) : (
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                     )}
                   </button>
 
@@ -223,7 +223,7 @@ export const DuaView: React.FC<DuaViewProps> = React.memo(({ onOpenShareModal })
                     className="p-2 rounded-xl text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 cursor-pointer"
                     title="বুকমার্ক করুন"
                   >
-                    <Bookmark className="w-3.5 h-3.5" />
+                    <Bookmark className="w-4 h-4" />
                   </button>
 
                   <button
@@ -236,43 +236,43 @@ export const DuaView: React.FC<DuaViewProps> = React.memo(({ onOpenShareModal })
                     className="p-2 rounded-xl text-stone-400 hover:text-[#177a56] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 cursor-pointer"
                     title="শেয়ার কার্ড বানান"
                   >
-                    <Share2 className="w-3.5 h-3.5" />
+                    <Share2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
               {/* Arabic Text */}
-              <p dir="rtl" className="font-arabic text-right text-xl sm:text-2xl leading-loose text-stone-900 dark:text-stone-50 my-2 font-normal">
+              <p dir="rtl" className="font-arabic text-right text-2xl sm:text-3xl leading-loose text-stone-900 dark:text-stone-50 my-2.5 font-normal select-text">
                 {dua.arabic}
               </p>
 
               {/* Pronunciation */}
-              <div className="bg-stone-50 dark:bg-stone-900/60 p-3 rounded-2xl border border-stone-200/80 dark:border-stone-800 space-y-1">
-                <span className="text-xs font-bold text-[#177a56] dark:text-emerald-400 block">উচ্চারণ:</span>
-                <p className="text-xs sm:text-sm text-stone-800 dark:text-stone-200 leading-relaxed font-medium">
+              <div className="bg-stone-50 dark:bg-stone-900/60 p-3 sm:p-3.5 rounded-2xl border border-stone-200/80 dark:border-stone-800 space-y-1">
+                <span className="text-xs sm:text-sm font-bold text-[#177a56] dark:text-emerald-400 block">উচ্চারণ:</span>
+                <p className="text-sm sm:text-base text-stone-800 dark:text-stone-200 leading-relaxed font-medium">
                   {dua.transliteration}
                 </p>
               </div>
 
               {/* Meaning */}
-              <div className="space-y-1">
-                <span className="text-xs font-bold text-stone-700 dark:text-stone-300 block">অর্থ:</span>
-                <p className="text-xs sm:text-sm text-stone-900 dark:text-stone-100 leading-relaxed font-medium">
+              <div className="space-y-1 py-1">
+                <span className="text-xs sm:text-sm font-bold text-stone-700 dark:text-stone-300 block">অর্থ:</span>
+                <p className="text-base sm:text-lg text-stone-900 dark:text-stone-100 leading-relaxed font-normal select-text">
                   {dua.translation}
                 </p>
               </div>
 
               {/* Virtue / Note */}
               {dua.note && (
-                <div className="p-2.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-500/15 text-[11px] sm:text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-500/15 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
                   <span className="font-bold text-[#177a56] dark:text-emerald-400">ফজিলত ও নির্দেশনা: </span>
                   {dua.note}
                 </div>
               )}
 
               {/* Footer with Reference, Counter & Coin Check */}
-              <div className="pt-2.5 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between text-xs flex-wrap gap-2">
-                <span className="text-stone-500 dark:text-stone-400 font-medium">
+              <div className="pt-2.5 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between text-xs sm:text-sm flex-wrap gap-2">
+                <span className="text-stone-600 dark:text-stone-400 font-medium">
                   উৎস: {dua.reference}
                 </span>
 

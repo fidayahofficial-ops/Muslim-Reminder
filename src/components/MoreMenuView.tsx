@@ -159,10 +159,10 @@ export const MoreMenuView: React.FC<MoreMenuViewProps> = React.memo(({
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                  <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100">
                     {item.titleBn}
                   </h3>
-                  <p className="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-1 mt-0.5">
+                  <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 line-clamp-1 mt-0.5 font-normal">
                     {item.descBn}
                   </p>
                 </div>
@@ -180,10 +180,10 @@ export const MoreMenuView: React.FC<MoreMenuViewProps> = React.memo(({
             <Smartphone className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-sm font-bold text-stone-900 dark:text-stone-100">
+            <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100">
               অ্যান্ড্রয়েড অ্যাপ (Muslim Reminder.apk)
             </h3>
-            <p className="text-[11px] text-stone-600 dark:text-stone-300 mt-0.5">
+            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 mt-0.5 font-normal">
               ফোনে সরাসরি APK ডাউনলোড ও ইনস্টল করে অফলাইনে ব্যবহার করুন
             </p>
           </div>
@@ -191,9 +191,9 @@ export const MoreMenuView: React.FC<MoreMenuViewProps> = React.memo(({
         <a
           href="/waqto-app.apk"
           download="Muslim-Reminder.apk"
-          className="px-3.5 py-2 rounded-xl bg-[#177a56] hover:bg-[#126446] text-white text-xs font-bold flex items-center gap-1.5 shrink-0 shadow-xs transition-colors"
+          className="px-3.5 py-2 rounded-xl bg-[#177a56] hover:bg-[#126446] text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 shrink-0 shadow-xs transition-colors"
         >
-          <Download className="w-3.5 h-3.5" />
+          <Download className="w-4 h-4" />
           <span>APK ডাউনলোড</span>
         </a>
       </div>
@@ -205,10 +205,10 @@ export const MoreMenuView: React.FC<MoreMenuViewProps> = React.memo(({
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-sm font-bold text-white">
+            <h3 className="text-sm sm:text-base font-bold text-white">
               প্রধান অ্যাডমিন প্যানেল (Admin Panel)
             </h3>
-            <p className="text-[11px] text-stone-400 mt-0.5">
+            <p className="text-xs text-stone-400 mt-0.5">
               শুধুমাত্র প্রধান অ্যাডমিন (nafiulislam3810@gmail.com) এর জন্য সংরক্ষিত
             </p>
           </div>

@@ -545,29 +545,29 @@ export const PrayerGuideView: React.FC = () => {
               >
                 <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2">
                   <div>
-                    <h3 className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                    <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100">
                       {p.nameBn} নামাজ
                     </h3>
-                    <span className="text-[11px] text-stone-500">
+                    <span className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 font-medium">
                       {p.timeWindow}
                     </span>
                   </div>
-                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-1 rounded-lg">
+                  <span className="text-xs sm:text-sm font-black text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-xl">
                     মোট {toBengaliDigits(p.totalRakats)} রাকাত
                   </span>
                 </div>
 
                 <div className="space-y-1.5">
                   {p.breakdown.map((b, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs py-1 px-2 rounded-lg bg-stone-50 dark:bg-stone-800/40">
-                      <span className="text-stone-700 dark:text-stone-300 font-medium">{b.typeBn}</span>
+                    <div key={idx} className="flex items-center justify-between text-xs sm:text-sm py-1.5 px-2.5 rounded-xl bg-stone-50 dark:bg-stone-800/40">
+                      <span className="text-stone-800 dark:text-stone-200 font-bold">{b.typeBn}</span>
                       <div className="flex items-center gap-2">
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                          b.status === 'ফরজ' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 font-bold' : 'bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-300'
+                        <span className={`text-xs px-2 py-0.5 rounded-lg ${
+                          b.status === 'ফরজ' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 font-black' : 'bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-300 font-bold'
                         }`}>
                           {b.status}
                         </span>
-                        <span className="font-mono font-bold text-stone-900 dark:text-stone-100">
+                        <span className="font-mono font-black text-stone-900 dark:text-stone-100">
                           {toBengaliDigits(b.rakats)} রাকাত
                         </span>
                       </div>
@@ -584,17 +584,17 @@ export const PrayerGuideView: React.FC = () => {
       {activeTab === 'wudu' && (
         <div className="space-y-3.5">
           {/* Interactive Step-by-Step Animated Wudu Sequencer */}
-          <div className="bg-white dark:bg-stone-900 rounded-2xl p-4 shadow-sm border border-stone-200 dark:border-stone-800 space-y-3.5">
+          <div className="bg-white dark:bg-stone-900 rounded-2xl p-4 sm:p-5 shadow-sm border border-stone-200 dark:border-stone-800 space-y-3.5">
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                  <Droplets className="w-4 h-4" />
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <Droplets className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-stone-100">
+                  <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100">
                     অজুর ধারাবাহিক ভিজ্যুয়াল গাইড
                   </h3>
-                  <p className="text-[11px] text-stone-500">
+                  <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 font-medium">
                     ধাপ {toBengaliDigits(activeWuduStep)} / {toBengaliDigits(WUDU_STEPS.length)} · {currentWuduMeta.rulingBn} ({currentWuduMeta.repeatBn})
                   </p>
                 </div>

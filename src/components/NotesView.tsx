@@ -342,7 +342,7 @@ export const NotesView: React.FC = () => {
                     })}
                   </span>
                 </div>
-                <h4 className="text-sm font-bold text-stone-900 dark:text-stone-100 leading-snug">
+                <h4 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 leading-snug">
                   {note.title}
                 </h4>
               </div>
@@ -354,19 +354,19 @@ export const NotesView: React.FC = () => {
                   className="p-1.5 rounded-lg text-stone-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer"
                   title="সম্পাদনা করুন"
                 >
-                  <Edit3 className="w-3.5 h-3.5" />
+                  <Edit3 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handlePromptDelete(note)}
                   className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
                   title="মুছে ফেলুন"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            <p className="text-xs text-stone-700 dark:text-stone-300 leading-relaxed whitespace-pre-wrap font-normal">
+            <p className="text-sm sm:text-base text-stone-800 dark:text-stone-200 leading-relaxed whitespace-pre-wrap font-medium">
               {note.content}
             </p>
           </div>

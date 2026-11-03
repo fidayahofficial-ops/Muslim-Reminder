@@ -29,7 +29,8 @@ import {
   Sunrise,
   Sunset,
   Calendar,
-  Send
+  Send,
+  Type
 } from 'lucide-react';
 import { 
   UserSettings, 
@@ -1140,6 +1141,64 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </button>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* 4. App-wide Font Size / Text Scaling */}
+      <div className="bg-white dark:bg-[#151B22] rounded-2xl p-4 shadow-xs border border-stone-200 dark:border-stone-800 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-[#177a56] dark:text-emerald-400 flex items-center justify-center">
+              <Type className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100">
+                অ্যাপের লেখার আকার (Font Size)
+              </h3>
+              <p className="text-xs text-stone-600 dark:text-stone-300">
+                অন্যান্য সাধারণ অ্যাপের মতো স্পষ্ট ও স্বাভাবিক পাঠযোগ্য সাইজ
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 pt-1">
+          {[
+            { id: 'normal' as const, labelBn: 'স্বাভাবিক (Normal)', descBn: 'মানসম্মত সাইজ' },
+            { id: 'large' as const, labelBn: 'বড় (Large)', descBn: 'সহজে পড়ার জন্য' },
+            { id: 'xlarge' as const, labelBn: 'অনেক বড় (XL)', descBn: 'স্পষ্টতম পাঠ' }
+          ].map((item) => {
+            const isSelected = (settings.appTextSize || 'normal') === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  triggerHaptic(20);
+                  onUpdateSettings({ appTextSize: item.id });
+                }}
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer text-center ${
+                  isSelected
+                    ? 'border-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 font-bold shadow-xs ring-1 ring-emerald-500/30'
+                    : 'border-stone-200 dark:border-stone-700 text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800/60 font-semibold'
+                }`}
+              >
+                <span className="text-xs sm:text-sm font-bold">{item.labelBn}</span>
+                <span className="text-[11px] text-stone-500 dark:text-stone-400 font-medium">
+                  {item.descBn}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Live Font Size Sample Box */}
+        <div className="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/40 border border-stone-200/80 dark:border-stone-700/60 space-y-1">
+          <span className="text-xs font-bold text-[#177a56] dark:text-emerald-400 block">
+            ফন্ট সাইজ নমুনা (Live Preview):
+          </span>
+          <p className="text-sm font-medium text-stone-800 dark:text-stone-200 leading-relaxed">
+            “নামাজের সময় হলে সঠিক সময়ে সালাত আদায় করুন।”
+          </p>
         </div>
       </div>
 

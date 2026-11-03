@@ -53,9 +53,9 @@ export const AzkarView: React.FC = () => {
       <div className="p-1 bg-stone-100 dark:bg-stone-800 rounded-2xl grid grid-cols-2">
         <button
           onClick={() => handleTimingChange('morning')}
-          className={`flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+          className={`flex items-center justify-center gap-2 py-3 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer ${
             timing === 'morning'
-              ? 'bg-amber-500 text-white shadow-sm'
+              ? 'bg-amber-500 text-white shadow-xs'
               : 'text-stone-600 dark:text-stone-400 hover:text-stone-800'
           }`}
         >
@@ -65,9 +65,9 @@ export const AzkarView: React.FC = () => {
 
         <button
           onClick={() => handleTimingChange('evening')}
-          className={`flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+          className={`flex items-center justify-center gap-2 py-3 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer ${
             timing === 'evening'
-              ? 'bg-indigo-700 text-white shadow-sm'
+              ? 'bg-indigo-700 text-white shadow-xs'
               : 'text-stone-600 dark:text-stone-400 hover:text-stone-800'
           }`}
         >
@@ -86,17 +86,17 @@ export const AzkarView: React.FC = () => {
           return (
             <article
               key={azkar.id}
-              className={`p-4 rounded-2xl border transition-all shadow-sm space-y-3 ${
+              className={`p-4 sm:p-5 rounded-3xl border transition-all shadow-xs space-y-3.5 ${
                 isCompleted
                   ? 'bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-400/60'
-                  : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800'
+                  : 'bg-white dark:bg-[#131b17] border-stone-200 dark:border-stone-800'
               }`}
             >
               <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5">
-                <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                   {azkar.titleBn}
                   {isCompleted && (
-                    <span className="flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-md">
+                    <span className="flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/60 px-2.5 py-0.5 rounded-full">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       সম্পন্ন
                     </span>
@@ -105,40 +105,40 @@ export const AzkarView: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleCopy(azkar)}
-                    className="p-1 rounded-lg text-stone-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-stone-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
                     title="অনুলিপি (কপি) করুন"
                   >
                     {copiedId === azkar.id ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                     )}
                   </button>
-                  <span className="text-xs sm:text-sm font-mono font-bold text-emerald-800 dark:text-emerald-300">
+                  <span className="text-sm font-mono font-bold text-emerald-800 dark:text-emerald-300">
                     {toBengaliDigits(currentCount)} / {toBengaliDigits(azkar.targetCount)} বার
                   </span>
                 </div>
               </div>
 
               {/* Arabic */}
-              <p className="font-arabic text-right text-xl sm:text-2xl leading-loose text-stone-900 dark:text-stone-50 my-2">
+              <p className="font-arabic text-right text-2xl sm:text-3xl leading-loose text-stone-900 dark:text-stone-50 my-2.5 select-text">
                 {azkar.arabic}
               </p>
 
               {/* Pronunciation & Translation */}
-              <div className="text-xs sm:text-sm text-stone-800 dark:text-stone-200 space-y-1.5">
-                <p className="italic text-emerald-800 dark:text-emerald-400 font-medium leading-relaxed">
+              <div className="space-y-2">
+                <p className="italic text-emerald-800 dark:text-emerald-400 text-sm sm:text-base font-medium leading-relaxed">
                   {azkar.transliteration}
                 </p>
-                <p className="leading-relaxed font-normal text-stone-900 dark:text-stone-100">
+                <p className="leading-relaxed font-normal text-base sm:text-lg text-stone-900 dark:text-stone-100 select-text">
                   {azkar.translation}
                 </p>
               </div>
 
               {/* Virtue */}
               {azkar.virtue && (
-                <div className="p-2.5 rounded-xl bg-stone-50 dark:bg-stone-800/60 text-xs text-stone-600 dark:text-stone-400 border border-stone-100 dark:border-stone-800">
-                  <strong className="text-stone-800 dark:text-stone-200">ফজিলত: </strong>
+                <div className="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 text-xs sm:text-sm text-stone-700 dark:text-stone-300 border border-stone-200/80 dark:border-stone-700/60 leading-relaxed">
+                  <strong className="text-stone-900 dark:text-stone-100 font-bold">ফজিলত: </strong>
                   {azkar.virtue}
                 </div>
               )}

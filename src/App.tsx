@@ -317,7 +317,7 @@ export default function App() {
     };
   }, [prayers, todayKey, district.nameBn, settings, activeTab]);
 
-  // Theme application
+  // Theme & App Text Scale application
   useEffect(() => {
     const root = document.documentElement;
     const applyTheme = (theme: 'light' | 'dark' | 'system') => {
@@ -336,13 +336,18 @@ export default function App() {
 
     applyTheme(settings.theme);
 
+    // Dynamic App-wide font scaling class
+    const textSize = settings.appTextSize || 'normal';
+    root.classList.remove('text-scale-normal', 'text-scale-large', 'text-scale-xlarge');
+    root.classList.add(`text-scale-${textSize}`);
+
     if (settings.theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const listener = () => applyTheme('system');
       mediaQuery.addEventListener('change', listener);
       return () => mediaQuery.removeEventListener('change', listener);
     }
-  }, [settings.theme]);
+  }, [settings.theme, settings.appTextSize]);
 
   // Handle settings update
   const handleUpdateSettings = (newPartial: Partial<UserSettings>) => {
@@ -753,10 +758,10 @@ export default function App() {
       />
 
       {/* Fixed Header Height Offset Spacer */}
-      <div className="h-14 pt-[env(safe-area-inset-top,0px)] shrink-0 select-none pointer-events-none" aria-hidden="true" />
+      <div className="h-16 sm:h-18 pt-[env(safe-area-inset-top,0px)] shrink-0 select-none pointer-events-none" aria-hidden="true" />
 
       {/* 2. Main Content Area */}
-      <main className="flex-1 w-full pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]">
+      <main className="flex-1 w-full pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(6.25rem+env(safe-area-inset-bottom,0px))]">
         {/* TAB 1: HOME */}
         {activeTab === 'home' && (
           <HomeDashboard

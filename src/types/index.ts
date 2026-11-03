@@ -241,6 +241,7 @@ export interface UserSettings {
   sunnahFastingReminderTiming?: SunnahFastingReminderTiming;
   sunnahFastingAlerts?: SunnahFastingAlertsToggles;
   theme: 'light' | 'dark' | 'system';
+  appTextSize?: 'normal' | 'large' | 'xlarge';
   arabicFontSize: 'normal' | 'large' | 'xlarge';
   language: 'bn' | 'en';
   dailyPrayerGoal?: number; // Target number of prayers daily (e.g. 5)

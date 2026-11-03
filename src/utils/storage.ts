@@ -57,6 +57,7 @@ export const defaultSettings: UserSettings = {
     shaban: true
   },
   theme: 'system',
+  appTextSize: 'normal',
   arabicFontSize: 'large',
   language: 'bn',
   dailyPrayerGoal: 5

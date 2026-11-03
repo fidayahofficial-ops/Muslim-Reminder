@@ -545,10 +545,10 @@ export const ZakatCalculatorView: React.FC = React.memo(() => {
               <Scale className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100 leading-none">
+              <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 leading-none">
                 হিসাব মানদণ্ড ও বাজারমূল্য
               </h3>
-              <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-1">
+              <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 font-medium">
                 ৫২.৫ ভরি রুপা (৬১২.৩৬ গ্রাম) অথবা ৭.৫ ভরি স্বর্ণ (৮৭.৪৮ গ্রাম)
               </p>
             </div>

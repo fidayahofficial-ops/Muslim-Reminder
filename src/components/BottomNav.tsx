@@ -23,8 +23,8 @@ export const BottomNav: React.FC<BottomNavProps> = React.memo(({ activeTab, onTa
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#131b17]/95 text-stone-700 dark:text-stone-200 backdrop-blur-md border-t border-emerald-950/10 dark:border-emerald-500/15 shadow-[0_-4px_24px_rgba(18,100,70,0.06)] safe-bottom gpu-layer">
-      <div className="max-w-md mx-auto grid grid-cols-5 h-16 items-center px-1">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#131b17]/95 text-stone-700 dark:text-stone-200 backdrop-blur-md border-t border-emerald-950/10 dark:border-emerald-500/15 shadow-[0_-6px_28px_rgba(18,100,70,0.12)] safe-bottom gpu-layer">
+      <div className="max-w-lg mx-auto grid grid-cols-5 h-[80px] sm:h-[88px] items-center px-1">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -32,19 +32,31 @@ export const BottomNav: React.FC<BottomNavProps> = React.memo(({ activeTab, onTa
             <button
               key={tab.id}
               onClick={() => handleTabClick(tab.id)}
-              className={`flex flex-col items-center justify-center h-full min-h-[52px] min-w-[48px] transition-all relative cursor-pointer select-none py-1 group ${
+              className={`flex flex-col items-center justify-center h-full w-full transition-all relative cursor-pointer select-none py-1 group ${
                 isActive
-                  ? 'text-[#177a56] dark:text-emerald-400 font-bold'
-                  : 'text-stone-600 hover:text-[#177a56] dark:text-stone-400 dark:hover:text-emerald-300 font-medium'
+                  ? 'text-[#177a56] dark:text-emerald-400 font-black'
+                  : 'text-stone-600 hover:text-[#177a56] dark:text-stone-300 dark:hover:text-emerald-300 font-bold'
               }`}
             >
-              <div className={`relative px-3 py-1 rounded-xl transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/50 scale-105' : 'group-hover:bg-stone-50 dark:group-hover:bg-stone-900/50'}`}>
-                <Icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110 text-[#177a56] dark:text-emerald-400 stroke-[2.4]' : 'text-stone-500 dark:text-stone-400 stroke-[1.8]'}`} />
+              <div className={`relative px-4 py-1.5 rounded-2xl flex items-center justify-center transition-all ${
+                isActive
+                  ? 'bg-emerald-50 dark:bg-emerald-950/80 scale-105 shadow-2xs'
+                  : 'group-hover:bg-stone-100 dark:group-hover:bg-stone-900/50'
+              }`}>
+                <Icon className={`w-6 h-6 transition-transform ${
+                  isActive
+                    ? 'scale-105 text-[#177a56] dark:text-emerald-400 stroke-[2.5]'
+                    : 'text-stone-600 dark:text-stone-300 stroke-[2.0]'
+                }`} />
                 {isActive && (
-                  <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#177a56] dark:bg-emerald-400 rounded-full" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#177a56] dark:bg-emerald-400 rounded-full" />
                 )}
               </div>
-              <span className={`text-[12px] sm:text-[13px] mt-0.5 leading-snug tracking-tight ${isActive ? 'font-bold text-[#177a56] dark:text-emerald-400' : 'text-stone-600 dark:text-stone-400'}`}>
+              <span className={`text-xs sm:text-sm mt-1 leading-none tracking-tight font-black ${
+                isActive
+                  ? 'text-[#177a56] dark:text-emerald-400'
+                  : 'text-stone-700 dark:text-stone-300'
+              }`}>
                 {tab.labelBn}
               </span>
             </button>

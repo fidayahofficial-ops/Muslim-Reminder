@@ -76,30 +76,30 @@ export const HajjGuideView: React.FC<HajjGuideViewProps> = ({ onOpenHajjCountdow
                 onClick={() => setExpandedIndex(isExpanded ? null : idx)}
                 className="flex items-center justify-between cursor-pointer select-none"
               >
-                <h3 className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100">
                   {step.titleBn}
                 </h3>
-                {isExpanded ? <ChevronUp className="w-4 h-4 text-stone-400" /> : <ChevronDown className="w-4 h-4 text-stone-400" />}
+                {isExpanded ? <ChevronUp className="w-5 h-5 text-stone-400" /> : <ChevronDown className="w-5 h-5 text-stone-400" />}
               </div>
 
               {isExpanded && (
-                <div className="space-y-3 pt-2 border-t border-stone-100 dark:border-stone-800 text-xs">
-                  <p className="text-stone-700 dark:text-stone-300 leading-relaxed font-normal">
+                <div className="space-y-3 pt-2.5 border-t border-stone-100 dark:border-stone-800 text-sm">
+                  <p className="text-stone-800 dark:text-stone-200 leading-relaxed font-medium">
                     {step.descriptionBn}
                   </p>
 
                   {step.arabic && (
-                    <div className="p-3.5 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 space-y-1.5">
-                      <p className="font-arabic text-right text-lg text-stone-900 dark:text-stone-100 leading-loose">
+                    <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800 space-y-2">
+                      <p className="font-arabic text-right text-2xl sm:text-3xl text-stone-900 dark:text-stone-100 leading-loose">
                         {step.arabic}
                       </p>
                       {step.transliteration && (
-                        <p className="text-xs text-emerald-900 dark:text-emerald-400 italic">
+                        <p className="text-xs sm:text-sm text-emerald-900 dark:text-emerald-300 font-semibold italic">
                           {step.transliteration}
                         </p>
                       )}
                       {step.translation && (
-                        <p className="text-xs text-stone-700 dark:text-stone-300">
+                        <p className="text-sm sm:text-base text-stone-800 dark:text-stone-200 font-medium">
                           {step.translation}
                         </p>
                       )}

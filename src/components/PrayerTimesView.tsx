@@ -122,24 +122,24 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = React.memo(({
         <div className="flex items-center justify-between border-t border-stone-100 dark:border-stone-800/80 pt-3">
           <button
             onClick={() => setSelectedDayOffset(prev => prev - 1)}
-            className="p-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors cursor-pointer"
+            className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors cursor-pointer"
             title="পূর্ববর্তী দিন"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
           <div className="text-center space-y-0.5">
-            <span className="block text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100">
+            <span className="block text-base sm:text-lg font-extrabold text-stone-900 dark:text-stone-100">
               {displayPrayers.dateStr}
             </span>
-            <span className="block text-xs font-semibold text-[#177a56] dark:text-emerald-400">
+            <span className="block text-xs sm:text-sm font-bold text-[#177a56] dark:text-emerald-400">
               {displayPrayers.hijriDateStr}
             </span>
           </div>
 
           <button
             onClick={() => setSelectedDayOffset(prev => prev + 1)}
-            className="p-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors cursor-pointer"
+            className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors cursor-pointer"
             title="পরবর্তী দিন"
           >
             <ChevronRight className="w-5 h-5" />
@@ -150,7 +150,7 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = React.memo(({
           <div className="text-center pt-1 border-t border-stone-100 dark:border-stone-800/60">
             <button
               onClick={() => setSelectedDayOffset(0)}
-              className="text-xs font-bold text-[#177a56] dark:text-emerald-400 hover:underline cursor-pointer"
+              className="text-xs sm:text-sm font-bold text-[#177a56] dark:text-emerald-400 hover:underline cursor-pointer"
             >
               আজকের ওয়াক্তে ফিরে যান
             </button>
@@ -161,22 +161,22 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = React.memo(({
       {/* 2. Today's Countdown Banner (when viewing today) */}
       {selectedDayOffset === 0 && (
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#126446] via-[#177a56] to-[#0d4430] text-white p-5 shadow-lg border border-emerald-500/20 flex items-center justify-between">
-          <div className="relative z-10 flex items-center gap-3">
+          <div className="relative z-10 flex items-center gap-3.5">
             <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center text-white shrink-0 border border-white/10">
               <Clock className="w-6 h-6 text-amber-300" />
             </div>
             <div>
-              <p className="text-xs text-emerald-200 font-medium">পরবর্তী সালাত</p>
+              <p className="text-xs sm:text-sm text-emerald-200 font-medium">পরবর্তী সালাত</p>
               <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
                 {nextPrayer.nameBn} — <span className="text-amber-300 font-mono font-black">{nextPrayer.timeStr}</span>
               </h3>
-              <p className="text-xs text-emerald-100 font-medium mt-0.5">
+              <p className="text-xs sm:text-sm text-emerald-100 font-medium mt-0.5">
                 চলমান ওয়াক্ত: <strong className="text-white font-bold">{currentPrayer.nameBn}</strong>
               </p>
             </div>
           </div>
           <div className="relative z-10 text-right">
-            <span className="text-xs sm:text-sm font-mono text-amber-300 tabular-nums font-bold block bg-emerald-950/60 px-2.5 py-1 rounded-full border border-amber-300/30">
+            <span className="text-xs sm:text-sm font-mono text-amber-300 tabular-nums font-bold block bg-emerald-950/60 px-3 py-1 rounded-full border border-amber-300/30 whitespace-nowrap">
               {nextPrayer.remainingMinutes > 60 
                 ? `${toBengaliDigits(Math.floor(nextPrayer.remainingMinutes / 60))} ঘণ্টা ${toBengaliDigits(nextPrayer.remainingMinutes % 60)} মি. বাকি`
                 : `${toBengaliDigits(nextPrayer.remainingMinutes)} মি. বাকি`}
@@ -195,7 +195,7 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = React.memo(({
           return (
             <div
               key={row.key}
-              className={`p-3.5 flex items-center justify-between transition-colors ${
+              className={`p-4 flex items-center justify-between transition-colors ${
                 isCurrent
                   ? 'bg-emerald-50/90 dark:bg-emerald-950/50'
                   : isNext
@@ -204,38 +204,38 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = React.memo(({
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
                   isCurrent 
                     ? 'bg-[#177a56] text-white shadow-xs' 
                     : isNext
                     ? 'bg-amber-500 text-white shadow-xs'
                     : 'bg-stone-100 dark:bg-stone-800/80 text-stone-700 dark:text-stone-300'
                 }`}>
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-50 flex items-center gap-2 leading-none">
+                  <h4 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-50 flex items-center gap-2 leading-snug">
                     {row.nameBn}
                     {isCurrent && (
-                      <span className="text-[10px] font-bold text-white bg-[#177a56] px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-bold text-white bg-[#177a56] px-2.5 py-0.5 rounded-full">
                         চলতি ওয়াক্ত
                       </span>
                     )}
                     {isNext && (
-                      <span className="text-[10px] font-bold text-amber-900 dark:text-amber-200 bg-amber-200 dark:bg-amber-900/60 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-bold text-amber-900 dark:text-amber-200 bg-amber-200 dark:bg-amber-900/60 px-2.5 py-0.5 rounded-full">
                         পরবর্তী ওয়াক্ত
                       </span>
                     )}
                   </h4>
-                  <span className="text-[11px] text-stone-500 dark:text-stone-400 font-medium leading-relaxed block mt-0.5">
+                  <span className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 font-medium leading-relaxed block mt-0.5">
                     {row.note}
                   </span>
                 </div>
               </div>
 
               <div className="text-right">
-                <span className={`text-sm sm:text-base font-bold font-mono tabular-nums ${
-                  isCurrent ? 'text-[#177a56] dark:text-emerald-400 font-extrabold' : isNext ? 'text-amber-600 dark:text-amber-400 font-extrabold' : 'text-stone-900 dark:text-stone-100'
+                <span className={`text-base sm:text-lg font-bold font-mono tabular-nums ${
+                  isCurrent ? 'text-[#177a56] dark:text-emerald-400 font-black' : isNext ? 'text-amber-600 dark:text-amber-400 font-black' : 'text-stone-900 dark:text-stone-100'
                 }`}>
                   {row.time}
                 </span>

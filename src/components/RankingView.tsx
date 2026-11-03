@@ -148,20 +148,20 @@ export const RankingView: React.FC<RankingViewProps> = () => {
       {/* 2. Live Community Leaderboard */}
       <div className="bg-white dark:bg-[#131b17] rounded-3xl p-4 sm:p-5 shadow-xs border border-emerald-950/8 dark:border-emerald-500/15 space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-              <Users className="w-4 h-4" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+              <Users className="w-4.5 h-4.5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-stone-900 dark:text-stone-100 leading-none">
+              <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 leading-none">
                 দ্বীনি আমল ও হাসানাহ লিডারবোর্ড
               </h3>
-              <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">
+              <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 font-medium">
                 আমল, সুন্নাহ ও সালাতভিত্তিক সৎকর্মের প্রতিযোগিতা
               </p>
             </div>
           </div>
-          <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-full font-mono">
+          <span className="text-xs sm:text-sm font-black text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/80 px-3 py-1 rounded-full font-mono">
             র‌্যাংক #{toBengaliDigits(userRank)}
           </span>
         </div>

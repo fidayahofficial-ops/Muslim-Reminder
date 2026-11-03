@@ -329,13 +329,13 @@ export const SunnahView: React.FC<SunnahViewProps> = ({
                 {/* Item Top Bar */}
                 <div className="flex items-start justify-between gap-2 border-b border-stone-100 dark:border-stone-800/80 pb-2.5">
                   <div>
-                    <span className="text-[11px] font-bold text-[#177a56] dark:text-emerald-400 tracking-wide uppercase">
+                    <span className="text-xs font-black text-[#177a56] dark:text-emerald-400 tracking-wide uppercase">
                       {item.categoryTitle}
                     </span>
-                    <h2 className="text-base sm:text-lg font-extrabold text-stone-900 dark:text-stone-50 leading-snug mt-0.5">
+                    <h2 className="text-lg sm:text-xl font-black text-stone-900 dark:text-stone-50 leading-snug mt-0.5">
                       {item.title}
                     </h2>
-                    <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mt-0.5">
+                    <p className="text-xs sm:text-sm font-semibold text-stone-600 dark:text-stone-400 mt-0.5">
                       {item.subtitle}
                     </p>
                   </div>

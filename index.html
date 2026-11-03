@@ -41,6 +41,9 @@
             document.documentElement.classList.remove('dark');
             document.documentElement.style.colorScheme = 'light';
           }
+          const textSize = settings && settings.appTextSize ? settings.appTextSize : 'normal';
+          document.documentElement.classList.remove('text-scale-normal', 'text-scale-large', 'text-scale-xlarge');
+          document.documentElement.classList.add('text-scale-' + textSize);
           if ('serviceWorker' in navigator && (location.hostname.includes('run.app') || location.hostname === 'localhost')) {
             navigator.serviceWorker.getRegistrations().then(function(regs) {
               for (var i = 0; i < regs.length; i++) {

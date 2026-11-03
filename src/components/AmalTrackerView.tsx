@@ -609,17 +609,17 @@ export const AmalTrackerView: React.FC<AmalTrackerViewProps> = React.memo(({
             </div>
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
-                <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100 leading-none">
+                <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 leading-none">
                   ৫ ওয়াক্ত ফরজ সালাত
                 </h3>
                 {completedPrayersCount >= 5 && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300/70 dark:border-amber-700/60 animate-pulse-soft">
-                    <Sparkles className="w-2.5 h-2.5 text-amber-500 fill-amber-400" />
+                  <span className="inline-flex items-center gap-1 text-xs font-black px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300/70 dark:border-amber-700/60 animate-pulse-soft">
+                    <Sparkles className="w-3 h-3 text-amber-500 fill-amber-400" />
                     আলহামদুলিল্লাহ পূর্ণ!
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-1">
+              <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 font-medium">
                 {completedPrayersCount >= 5
                   ? 'মাশাআল্লাহ! আজকের ৫ ওয়াক্ত ফরজ সালাতই আদায় সম্পন্ন হয়েছে'
                   : 'দিনের শেষে আদায় না হওয়া প্রতিটি সালাত লাল রঙে ফ্ল্যাগড থাকে'}
@@ -700,17 +700,17 @@ export const AmalTrackerView: React.FC<AmalTrackerViewProps> = React.memo(({
                     ) : null}
                   </div>
                   <div className="text-left">
-                    <span className="text-sm sm:text-base font-bold block leading-tight">
+                    <span className="text-base sm:text-lg font-black block leading-snug">
                       {p.nameBn}
                     </span>
-                    <span className={`text-[11px] block mt-0.5 leading-snug font-normal ${isMissed ? 'text-rose-700 dark:text-rose-300 font-semibold' : 'text-stone-500 dark:text-stone-400'}`}>
+                    <span className={`text-xs sm:text-sm block mt-0.5 leading-relaxed font-semibold ${isMissed ? 'text-rose-700 dark:text-rose-300 font-bold' : 'text-stone-600 dark:text-stone-300'}`}>
                       {subText}
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${badgeStyle}`}>
+                  <span className={`text-xs sm:text-sm px-3 py-1 rounded-full font-black ${badgeStyle}`}>
                     {badgeText}
                   </span>
                 </div>
@@ -729,15 +729,15 @@ export const AmalTrackerView: React.FC<AmalTrackerViewProps> = React.memo(({
               <BookOpen className="w-4 h-4" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100 leading-none">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 leading-none">
                   দৈনিক কুরআন খতম অগ্রগতি
                 </h3>
-                <span className="text-[10px] font-bold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-full border border-amber-300/60 dark:border-amber-700/50">
+                <span className="text-xs font-black bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 px-2.5 py-1 rounded-full border border-amber-300/60 dark:border-amber-700/50">
                   +{toBengaliDigits(COIN_REWARDS.QURAN_PAGE)} কয়েন/পৃষ্ঠা
                 </span>
               </div>
-              <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-1">
+              <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 font-medium">
                 পবিত্র কুরআনের ৬০৪ পৃষ্ঠা (৩০ পারা) খতমের ধারাবাহিক হিসাব
               </p>
             </div>
@@ -909,10 +909,10 @@ export const AmalTrackerView: React.FC<AmalTrackerViewProps> = React.memo(({
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100 leading-none">
+              <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 leading-none">
                 সুন্নাহ, মাসনূন দোয়া ও ইসলামিক কুইজ
               </h3>
-              <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-1">
+              <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 font-medium">
                 দিনের শেষে সম্পন্ন না হলে লাল রঙে ফ্ল্যাগড হিসেবে প্রদর্শিত হবে
               </p>
             </div>
